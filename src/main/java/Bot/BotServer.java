@@ -16,15 +16,9 @@ public class BotServer {
 
         VkApiInterface apiInterface = ctx.getBean("vkApiInterface", VkApiInterface.class);
 
-        try {
-            apiInterface.addCallBackServer();
-        } catch (ClientException | ApiException e) {
-            System.out.println("Failed to add server");
-            System.exit(-1);
-        }
+        addCallBackServer(apiInterface);
 
         startCommandListener();
-
     }
 
     private static void startCommandListener() {
@@ -41,6 +35,15 @@ public class BotServer {
             } else {
                 System.out.println("Unknown command");
             }
+        }
+    }
+
+    private static void addCallBackServer (VkApiInterface vkApiInterface) {
+        try {
+            vkApiInterface.addCallBackServer();
+        } catch (ClientException | ApiException e) {
+            System.out.println("Failed to add server");
+            System.exit(-1);
         }
     }
 }
