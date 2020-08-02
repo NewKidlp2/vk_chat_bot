@@ -3,7 +3,7 @@ package Bot;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * This class is used to deserialize json file received in controller.
+ * This class is used to deserialize JSON file received in controller.
  */
 public class NewMessage {
     @SerializedName("body")
@@ -14,15 +14,6 @@ public class NewMessage {
 
     int getUserId() {
         return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-
-    public void setBody(String body) {
-        this.body = body;
     }
 
     String getBody() {

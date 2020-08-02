@@ -1,7 +1,5 @@
 package Bot;
 
-import com.vk.api.sdk.exceptions.ApiException;
-import com.vk.api.sdk.exceptions.ClientException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -14,9 +12,9 @@ public class BotServer {
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(BotServer.class);
 
-        VkApiInterface apiInterface = ctx.getBean("vkApiInterface", VkApiInterface.class);
+        VkApiInterface vkApiInterface = ctx.getBean("vkApiInterface", VkApiInterface.class);
 
-        addCallBackServer(apiInterface);
+        vkApiInterface.addCallBackServer();
 
         startCommandListener();
     }
@@ -38,12 +36,4 @@ public class BotServer {
         }
     }
 
-    private static void addCallBackServer (VkApiInterface vkApiInterface) {
-        try {
-            vkApiInterface.addCallBackServer();
-        } catch (ClientException | ApiException e) {
-            System.out.println("Failed to add server");
-            System.exit(-1);
-        }
-    }
 }

@@ -12,7 +12,7 @@ public class EventController {
     private EventManager eventManager;
 
     @PostMapping("")
-    public String getMessage (@RequestBody String json) {
+    public String getMessage(@RequestBody String json) {
         return eventManager.manageEvent(json);
     }
 }
