@@ -150,6 +150,9 @@ public class VkApiInterface {
         }
     }
 
+    /**
+     * Checks if Callback server was successfully confirmed.
+     */
     private void checkCallbackServerConfirmation() {
         String status = "";
         String requestUrl = Urls.checkCallbackServerConfirmationUrl.getUrl();
