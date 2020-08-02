@@ -1,5 +1,8 @@
-package Bot;
+package Bot.ApiInterface;
 
+import Bot.Service.HttpRequestService;
+import Bot.RequestException;
+import Bot.Urls;
 import com.google.gson.JsonParser;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -15,7 +18,7 @@ import java.util.Collection;
  * Creates callback server, uses properties from application.properties file.
  */
 @Component
-class VkApiInterface {
+public class VkApiInterface {
     private Integer serverId;
 
     @Value("${server.url}")
@@ -58,9 +61,10 @@ class VkApiInterface {
     /**
      * Creates callback server with necessary settings.
      */
-    void addCallBackServer () {
+    public void addCallBackServer () {
         requestConfirmationCode();
         createCallBackServer();
+        checkCallbackServerConfirmation();
         setCallbackServerSettings();
 
         System.out.println("Callback server is up");
@@ -80,6 +84,7 @@ class VkApiInterface {
 
         try {
             String response = httpRequestService.execute(params, requestUrl);
+
             confirmationCode = JsonParser
                     .parseString(response)
                     .getAsJsonObject()
@@ -108,6 +113,7 @@ class VkApiInterface {
 
         try {
             String response = httpRequestService.execute(params, requestUrl);
+
             serverId = JsonParser
                     .parseString(response)
                     .getAsJsonObject()
@@ -144,11 +150,54 @@ class VkApiInterface {
         }
     }
 
-    String getConfirmationCode() {
+    private void checkCallbackServerConfirmation() {
+        String status = "";
+        String requestUrl = Urls.checkCallbackServerConfirmationUrl.getUrl();
+        final Collection<NameValuePair> params = new ArrayList<>();
+
+        params.add(new BasicNameValuePair("group_id", groupId.toString()));
+        params.add(new BasicNameValuePair("server_ids", serverId.toString()));
+        params.add(new BasicNameValuePair("access_token", accessToken));
+        params.add(new BasicNameValuePair("v", "5.120"));
+
+        try {
+            while (status.equals("") || status.equals("wait")) {
+                String response = httpRequestService.execute(params, requestUrl);
+
+                status = JsonParser
+                        .parseString(response)
+                        .getAsJsonObject()
+                        .getAsJsonObject("response")
+                        .getAsJsonArray("items")
+                        .get(0)
+                        .getAsJsonObject()
+                        .getAsJsonPrimitive("status")
+                        .getAsString();
+
+                if (status.equals("wait")) {
+                    Thread.sleep(100);
+                }
+            }
+        } catch (RequestException requestException) {
+            System.out.println("Problems occurred while checking confirmation: "
+                    + requestException.getMessage());
+            System.exit(-1);
+
+        } catch (InterruptedException interruptedException) {
+            System.out.println("Thread was interrupted" + interruptedException.getMessage());
+        }
+
+        if (!status.equals("ok")) {
+            System.out.println("Callback server wasn't confirmed. Check url in property file.");
+            System.exit(-1);
+        }
+    }
+
+    public String getConfirmationCode() {
         return confirmationCode;
     }
 
-    String getAccessToken() {
+    public String getAccessToken() {
         return accessToken;
     }
 }

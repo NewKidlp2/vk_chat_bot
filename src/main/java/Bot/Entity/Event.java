@@ -1,11 +1,11 @@
-package Bot;
+package Bot.Entity;
 
 import com.google.gson.annotations.SerializedName;
 
 /**
  * This class is used to deserialize json file received in controller.
  */
-class Event {
+public class Event {
     @SerializedName("group_id")
     private int groupId;
 
@@ -15,11 +15,11 @@ class Event {
     @SerializedName("type")
     private String type;
 
-    String getType() {
+    public String getType() {
         return type;
     }
 
-    NewMessage getObject() {
+    public NewMessage getObject() {
         return object;
     }
 

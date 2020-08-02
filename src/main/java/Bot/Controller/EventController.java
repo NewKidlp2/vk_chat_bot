@@ -1,6 +1,7 @@
-package Bot;
+package Bot.Controller;
 
 
+import Bot.Manager.EventManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

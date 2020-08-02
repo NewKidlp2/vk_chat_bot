@@ -1,4 +1,4 @@
-package Bot;
+package Bot.Entity;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -12,11 +12,11 @@ public class NewMessage {
     @SerializedName("user_id")
     private int userId;
 
-    int getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    String getBody() {
+    public String getBody() {
         return body;
     }
 }

@@ -1,5 +1,6 @@
-package Bot;
+package Bot.Service;
 
+import Bot.RequestException;
 import com.google.gson.JsonParser;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.fluent.Request;
@@ -14,7 +15,7 @@ import java.util.Collection;
  * Constructs and sends http requests.
  */
 @Component
-class HttpRequestService {
+public class HttpRequestService {
 
 
     /**
@@ -23,7 +24,7 @@ class HttpRequestService {
      * @return server response.
      * @throws RequestException occurs when server returns error in json.
      */
-    String execute (Collection<NameValuePair> params, String url) throws RequestException {
+    public String execute (Collection<NameValuePair> params, String url) throws RequestException {
 
         String response = "";
 

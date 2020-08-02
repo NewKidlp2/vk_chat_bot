@@ -1,5 +1,9 @@
-package Bot;
+package Bot.Manager;
 
+import Bot.*;
+import Bot.ApiInterface.VkApiInterface;
+import Bot.Entity.Event;
+import Bot.Service.HttpRequestService;
 import com.google.gson.Gson;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -13,7 +17,7 @@ import java.util.Collection;
  * Sends answer depending on event that happened.
  */
 @Component
-class EventManager {
+public class EventManager {
 
     private Integer randomId = 0;
 
@@ -28,7 +32,7 @@ class EventManager {
      * @param json object received in controller.
      * @return answer for http request.
      */
-    String manageEvent (String json){
+    public String manageEvent (String json){
         Event event = new Gson().fromJson(json, Event.class);
 
         if (event.getType().equals("confirmation")) {
