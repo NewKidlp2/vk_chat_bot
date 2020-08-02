@@ -30,7 +30,7 @@ public class HttpRequestService {
 
         try {
             response = Request.Post(url)
-                    .bodyForm(params, Charset.defaultCharset())
+                    .bodyForm(params, Charset.forName("UTF-8"))
                     .execute()
                     .returnContent()
                     .asString();
